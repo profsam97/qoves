@@ -2,7 +2,7 @@
 
 Landing page for **Qoves** — a platform for facial transformation without surgery. Built with high-quality animations, modular architecture, and pixel precision.
 
-🔗 **Live Site:** [www.qoves.io](https://www.qoves.io)
+🔗 **Live Site:** [www.qoves.io](https://qoves-yyfc.vercel.app)
 📦 **Repository:** [github.com](https://github.com/profsam97/qoves.git) 
 ---
 
