@@ -1,0 +1,40 @@
+@use "tokens" as *;
+
+@mixin md {
+  @media (min-width: $bp-md) { @content; }
+}
+
+@mixin lg {
+  @media (min-width: $bp-lg) { @content; }
+}
+
+@mixin xl {
+  @media (min-width: $bp-xl) { @content; }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) { @content; }
+}
+
+@mixin eyebrow {
+  font-family: $font-mono;
+  font-size: $fs-eyebrow;
+  letter-spacing: $ls-eyebrow;
+  text-transform: uppercase;
+  color: $color-ink-muted;
+}
+
+@mixin hairline-y {
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $color-line;
+  }
+  &::before { top: 0; }
+  &::after { bottom: 0; }
+}
