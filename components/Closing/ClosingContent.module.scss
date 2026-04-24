@@ -200,6 +200,10 @@
   color: rgba(255, 255, 255, 0.75);
   max-width: 52ch;
   margin-bottom: $space-5;
+  display: block;
+    }
+    @media (min-width: 481px) {
+      display: none;
     }
 }
 
