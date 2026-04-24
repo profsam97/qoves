@@ -1,0 +1,8 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
