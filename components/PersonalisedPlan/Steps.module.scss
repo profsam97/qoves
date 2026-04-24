@@ -1,0 +1,83 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $space-4;
+  padding-block: $space-5 $space-6;
+  flex: 0 0 auto;
+
+  @include lg {
+    padding-block: clamp(20px, 3vh, 32px) clamp(24px, 4vh, 48px);
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 48px;
+  min-height: 152px;
+  padding: 16px;
+  background: $color-surface;
+  border: 1px solid $color-line;
+  border-radius: 12px;
+  color: $color-ink;
+  transition:
+    background-color 0.4s $ease-emphasis,
+    border-color 0.4s $ease-emphasis,
+    color 0.4s $ease-emphasis,
+    transform 0.5s $ease-emphasis,
+    box-shadow 0.5s $ease-emphasis;
+
+  &:hover {
+    background: #9aaeb5;
+    border-color: transparent;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 32px -20px rgba(0, 0, 0, 0.3);
+
+    .badge {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .badgeNum {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .title {
+      color: #ffffff;
+    }
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: $color-step-badge-bg;
+  border: 1px solid transparent;
+  margin-bottom: $space-5;
+}
+
+.badgeNum {
+  font-family: $font-mono;
+  font-size: $fs-badge;
+  font-weight: 400;
+  color: $color-step-badge-ink;
+  line-height: 1;
+}
+
+.title {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.35;
+  color: $color-ink;
+  max-width: 22ch;
+}

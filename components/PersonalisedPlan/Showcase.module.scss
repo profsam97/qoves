@@ -1,0 +1,94 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.showcase {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-5;
+  padding-block: $space-6;
+  border-bottom: 1px solid $color-line;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  @include lg {
+    grid-template-columns: minmax(0, 1fr) minmax(100px, 0.55fr) minmax(0, 1fr);
+    gap: 0;
+    padding-block: clamp(24px, 3vh, 40px);
+    align-items: stretch;
+  }
+}
+
+.card {
+  position: relative;
+  margin: 0;
+  border: 1px solid $color-line;
+  border-radius: $radius-lg;
+  padding: 10px;
+  background: $color-surface;
+  aspect-ratio: 1 / 1.05;
+  max-height: min(52vh, 560px);
+  width: auto;
+  justify-self: center;
+
+  @include lg {
+    justify-self: stretch;
+  }
+}
+
+.photoWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  background: $color-photo-bg;
+}
+
+.photo {
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+.connector {
+  display: none;
+
+  @include lg {
+    display: flex;
+    position: relative;
+    align-self: stretch;
+    align-items: stretch;
+  }
+}
+
+.connectorSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.connectorPath {
+  stroke: $color-line;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.pathTop {
+  stroke: $color-line;
+}
+.pathBottom {
+  stroke: $color-line;
+}
+
+.dot {
+  fill: $color-dot;
+}
+
+.dotTop {
+  fill: $color-dot;
+}
+.dotBottom {
+  fill: $color-dot;
+}
