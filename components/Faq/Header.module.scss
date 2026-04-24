@@ -1,0 +1,52 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 0 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid $color-line;
+  border-radius: $radius-chip;
+  margin-bottom: $space-5;
+}
+
+.eyebrowInner {
+  @include eyebrow;
+  display: inline-block;
+  transform: translateY(0.5px);
+}
+
+.heading {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: $color-ink;
+  margin-bottom: $space-4;
+}
+
+.word {
+  display: inline-block;
+  white-space: pre;
+}
+
+.wordAccent {
+  color: $color-accent;
+}
+
+.subtitle {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: $fs-subtitle;
+  line-height: 1.55;
+  color: $color-ink-soft;
+  max-width: 72ch;
+}

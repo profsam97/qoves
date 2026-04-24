@@ -1,0 +1,29 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.section {
+  background: $color-bg;
+  color: $color-ink;
+  padding-block: clamp(64px, 9vh, 120px);
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-inline: $frame-gutter-sm;
+  border-inline: 1px solid $color-line;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include lg {
+    padding-inline: 64px;
+  }
+
+  @include xl {
+    padding-inline: $frame-gutter;
+  }
+}
+
