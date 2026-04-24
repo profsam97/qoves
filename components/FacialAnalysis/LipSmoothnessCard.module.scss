@@ -1,0 +1,78 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.card {
+  background: #0000001a;
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: $radius-md;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  height: 100%;
+  overflow: hidden;
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: $ls-eyebrow;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.value {
+  font-family: $font-display;
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+  color: #fff;
+}
+
+.barSection {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.barLabels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.youLabel {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-chip;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.track {
+  position: relative;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.marker {
+  position: absolute;
+  top: -12px;
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  border-left: 1px dashed rgba(255, 255, 255, 0.4);
+  transform: translateX(-50%);
+}

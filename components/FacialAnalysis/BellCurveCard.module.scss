@@ -1,0 +1,40 @@
+@use "../../app/styles/tokens" as *;
+@use "../../app/styles/mixins" as *;
+
+.card {
+  background: #0000001a;
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: $radius-md;
+  padding: $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  height: 100%;
+  overflow: hidden;
+}
+
+.chartWrap {
+  width: 100%;
+  flex: 1;
+  min-height: 30px;
+  position: relative;
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  font-family: $font-mono;
+  font-size: 9px;
+  letter-spacing: $ls-eyebrow;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.caption {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: $radius-sm;
+  padding: $space-3 $space-4;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
