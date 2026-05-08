@@ -108,6 +108,7 @@ export function Showcase() {
       };
 
       const format = (value: number) => Math.round(value * 10) / 10;
+      const r = 18;
 
       const syncConnector = () => {
         connectorTweens.splice(0).forEach((tween) => tween.kill());
@@ -139,26 +140,35 @@ export function Showcase() {
         topPath.setAttribute(
           "d",
           [
-            `M ${beforeOuter} ${bottomLine}`,
-            `V ${topLine}`,
-            `H ${beforeInner}`,
+            `M ${beforeOuter} ${bottomLine - r}`,
+            `V ${topLine + r}`,
+            `A ${r} ${r} 0 0 1 ${beforeOuter + r} ${topLine}`,
+            `H ${beforeInner - r}`,
+            `A ${r} ${r} 0 0 1 ${beforeInner} ${topLine + r}`,
+            // bridge
             `M ${beforeInner} ${topBridge}`,
             `H ${afterInner}`,
-            `M ${afterInner} ${topLine}`,
-            `H ${afterOuter}`,
-            `V ${bottomLine}`,
+            `M ${afterInner} ${topLine + r}`,
+            `A ${r} ${r} 0 0 1 ${afterInner + r} ${topLine}`,
+            `H ${afterOuter - r}`,
+            `A ${r} ${r} 0 0 1 ${afterOuter} ${topLine + r}`,
+            `V ${bottomLine - r}`,
+            `A ${r} ${r} 0 0 1 ${afterOuter - r} ${bottomLine}`,
           ].join(" "),
         );
 
         bottomPath.setAttribute(
           "d",
           [
-            `M ${afterOuter} ${bottomLine}`,
-            `H ${afterInner}`,
+            `M ${afterOuter - r} ${bottomLine}`,
+            `H ${afterInner + r}`,
+            `A ${r} ${r} 0 0 0 ${afterInner} ${bottomLine - r}`,
             `M ${afterInner} ${bottomBridge}`,
             `H ${beforeInner}`,
-            `M ${beforeInner} ${bottomLine}`,
-            `H ${beforeOuter}`,
+            `M ${beforeInner} ${bottomLine - r}`,
+            `A ${r} ${r} 0 0 0 ${beforeInner - r} ${bottomLine}`,
+            `H ${beforeOuter + r}`,
+            `A ${r} ${r} 0 0 1 ${beforeOuter} ${bottomLine - r}`,
           ].join(" "),
         );
 
