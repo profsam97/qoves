@@ -152,8 +152,6 @@ Two-level state (`openCategory` + `openQuestion`) with CSS `grid-template-rows: 
 
 | Area | Detail |
 |------|--------|
-| **Animation**| the current animation especially for the before and after needs to be worked on, due to the limited timeframe, i was able to complete it. 
-| **Accessibility (a11y)** | Add ARIA attributes to the FAQ accordion (`aria-expanded`, `aria-controls`), keyboard navigation, and focus management across interactive components. |
 | **SEO & Metadata** | Add Open Graph tags, meta descriptions, and structured data (JSON-LD) for richer search results and social sharing. |
 | **Testing** | No test suite currently. Unit tests (Vitest or Jest) and E2E tests (Playwright) would improve confidence in changes. |
 | **CI/CD** | Add a GitHub Actions pipeline for automated lint, build, and deploy checks on pull requests. |
