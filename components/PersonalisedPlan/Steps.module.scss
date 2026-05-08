@@ -7,9 +7,8 @@
   gap: $space-4;
   padding-block: $space-5 $space-6;
   flex: 0 0 auto;
-
   @include lg {
-    padding-block: clamp(20px, 3vh, 32px) clamp(24px, 4vh, 48px);
+    padding-block: clamp(20px, 3vh, 32px) clamp(24px, 0vh, 48px);
   }
 }
 
@@ -18,9 +17,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 48px;
-  min-height: 152px;
-  padding: 16px;
+  gap: 40px;
+  height: 152px;
+  padding: 10px;
   background: $color-surface;
   border: 1px solid $color-line;
   border-radius: 12px;
@@ -45,6 +44,7 @@
 
     .badgeNum {
       color: rgba(255, 255, 255, 0.85);
+      padding: 4px;
     }
 
     .title {

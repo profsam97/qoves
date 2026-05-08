@@ -5,11 +5,10 @@ import { useRef } from "react";
 import styles from "./Showcase.module.scss";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { useIsomorphicLayoutEffect } from "@/hooks/useIsomorphicLayoutEffect";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 export function Showcase() {
@@ -17,17 +16,33 @@ export function Showcase() {
 
   useIsomorphicLayoutEffect(() => {
     if (!rootRef.current) return;
+    let cleanupConnector = () => {};
+
     const ctx = gsap.context(() => {
-      const before = rootRef.current!.querySelector(`.${styles.before}`);
-      const after = rootRef.current!.querySelector(`.${styles.after}`);
+      const before = rootRef.current!.querySelector<HTMLElement>(
+        `.${styles.before}`,
+      );
+      const after = rootRef.current!.querySelector<HTMLElement>(
+        `.${styles.after}`,
+      );
       const topPath = rootRef.current!.querySelector<SVGPathElement>(
         `.${styles.pathTop}`,
       );
       const bottomPath = rootRef.current!.querySelector<SVGPathElement>(
         `.${styles.pathBottom}`,
       );
-      const dotTop = rootRef.current!.querySelector(`.${styles.dotTop}`);
-      const dotBottom = rootRef.current!.querySelector(`.${styles.dotBottom}`);
+      const dotTop = rootRef.current!.querySelector<SVGCircleElement>(
+        `.${styles.dotTop}`,
+      );
+      const dotBottom = rootRef.current!.querySelector<SVGCircleElement>(
+        `.${styles.dotBottom}`,
+      );
+      const connector = rootRef.current!.querySelector<HTMLElement>(
+        `.${styles.connector}`,
+      );
+      const connectorSvg = rootRef.current!.querySelector<SVGSVGElement>(
+        `.${styles.connectorSvg}`,
+      );
 
       const reveal = gsap.timeline({
         scrollTrigger: {
@@ -51,42 +66,130 @@ export function Showcase() {
           "<",
         );
 
-      if (topPath && dotTop) {
-        gsap.to(dotTop, {
-          duration: 4,
-          repeat: -1,
-          repeatDelay: 0.15,
-          ease: "none",
-          motionPath: {
-            path: topPath,
-            align: topPath,
-            alignOrigin: [0.5, 0.5],
-            start: 0,
-            end: 1,
-          },
-        });
+      if (
+        !before ||
+        !after ||
+        !connector ||
+        !connectorSvg ||
+        !topPath ||
+        !bottomPath ||
+        !dotTop ||
+        !dotBottom
+      ) {
+        return;
       }
 
-      if (bottomPath && dotBottom) {
-        gsap.to(dotBottom, {
-          duration: 4,
-          repeat: -1,
-          repeatDelay: 0.15,
-          ease: "none",
-          motionPath: {
-            path: bottomPath,
-            align: bottomPath,
-            alignOrigin: [0.5, 0.5],
-            start: 0,
-            end: 1,
-          },
-        });
-      }
+      const connectorTweens: gsap.core.Tween[] = [];
 
-      return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+      const animateDot = (path: SVGPathElement, dot: SVGCircleElement) => {
+        const length = path.getTotalLength();
+        if (!Number.isFinite(length) || length <= 0) return;
+
+        const state = { progress: 0 };
+        const setDotPosition = () => {
+          const point = path.getPointAtLength(length * state.progress);
+          gsap.set(dot, {
+            attr: { cx: point.x, cy: point.y },
+            autoAlpha: 1,
+          });
+        };
+
+        setDotPosition();
+        connectorTweens.push(
+          gsap.to(state, {
+            progress: 1,
+            duration: 4.2,
+            repeat: -1,
+            repeatDelay: 0.15,
+            ease: "none",
+            onUpdate: setDotPosition,
+          }),
+        );
+      };
+
+      const format = (value: number) => Math.round(value * 10) / 10;
+
+      const syncConnector = () => {
+        connectorTweens.splice(0).forEach((tween) => tween.kill());
+
+        connectorSvg.setAttribute(
+          "viewBox",
+          `0 0 ${connector.offsetWidth} ${connector.offsetHeight}`,
+        );
+
+        const beforeOuter = format(
+          before.offsetLeft - connector.offsetLeft - 0.5,
+        );
+        const beforeInner = format(
+          before.offsetLeft + before.offsetWidth - connector.offsetLeft + 0.5,
+        );
+        const afterInner = format(
+          after.offsetLeft - connector.offsetLeft - 0.5,
+        );
+        const afterOuter = format(
+          after.offsetLeft + after.offsetWidth - connector.offsetLeft + 0.5,
+        );
+        const top = before.offsetTop - connector.offsetTop;
+        const cardHeight = before.offsetHeight;
+        const topLine = format(top - 0.5);
+        const bottomLine = format(top + cardHeight + 0.5);
+        const topBridge = format(top + cardHeight * 0.38);
+        const bottomBridge = format(top + cardHeight * 0.62);
+
+        topPath.setAttribute(
+          "d",
+          [
+            `M ${beforeOuter} ${bottomLine}`,
+            `V ${topLine}`,
+            `H ${beforeInner}`,
+            `M ${beforeInner} ${topBridge}`,
+            `H ${afterInner}`,
+            `M ${afterInner} ${topLine}`,
+            `H ${afterOuter}`,
+            `V ${bottomLine}`,
+          ].join(" "),
+        );
+
+        bottomPath.setAttribute(
+          "d",
+          [
+            `M ${afterOuter} ${bottomLine}`,
+            `H ${afterInner}`,
+            `M ${afterInner} ${bottomBridge}`,
+            `H ${beforeInner}`,
+            `M ${beforeInner} ${bottomLine}`,
+            `H ${beforeOuter}`,
+          ].join(" "),
+        );
+
+        animateDot(topPath, dotTop);
+        animateDot(bottomPath, dotBottom);
+      };
+
+      let animationFrame = window.requestAnimationFrame(syncConnector);
+      const queueSync = () => {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = window.requestAnimationFrame(syncConnector);
+      };
+      const resizeObserver = new ResizeObserver(queueSync);
+
+      resizeObserver.observe(rootRef.current!);
+      resizeObserver.observe(before);
+      resizeObserver.observe(after);
+      window.addEventListener("resize", queueSync);
+
+      cleanupConnector = () => {
+        window.cancelAnimationFrame(animationFrame);
+        window.removeEventListener("resize", queueSync);
+        resizeObserver.disconnect();
+        connectorTweens.forEach((tween) => tween.kill());
+      };
     }, rootRef);
 
-    return () => ctx.revert();
+    return () => {
+      cleanupConnector();
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -106,17 +209,14 @@ export function Showcase() {
 
       <div className={styles.connector} aria-hidden="true">
         <svg
-          viewBox="0 0 320 520"
-          preserveAspectRatio="none"
           className={styles.connectorSvg}
+          preserveAspectRatio="none"
         >
           <path
             className={`${styles.connectorPath} ${styles.pathTop}`}
-            d="M 0 180 L 140 180 Q 160 180 160 200 L 160 240 Q 160 260 180 260 L 320 260"
           />
           <path
             className={`${styles.connectorPath} ${styles.pathBottom}`}
-            d="M 320 300 L 180 300 Q 160 300 160 320 L 160 360 Q 160 380 140 380 L 0 380"
           />
           <circle
             className={`${styles.dot} ${styles.dotTop}`}
