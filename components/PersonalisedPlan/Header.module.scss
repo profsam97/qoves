@@ -7,11 +7,20 @@
   align-items: center;
   text-align: center;
   padding-block: $space-7 $space-6;
+  padding-inline: $frame-gutter-sm;
+  margin-inline: -$frame-gutter-sm;
   border-bottom: 1px solid $color-line;
   flex: 0 0 auto;
 
   @include lg {
     padding-block: clamp(32px, 5vh, 56px) clamp(24px, 4vh, 40px);
+    padding-inline: 24px;
+    margin-inline: -24px;
+  }
+
+  @include xl {
+    padding-inline: 40px;
+    margin-inline: -40px;
   }
 }
 

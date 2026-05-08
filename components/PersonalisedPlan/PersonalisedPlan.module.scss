@@ -19,7 +19,7 @@
 .frame {
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 1240px;
   margin: 0 auto;
   padding-inline: $frame-gutter-sm;
   border-inline: 1px solid $color-line;
@@ -27,10 +27,10 @@
   flex-direction: column;
 
   @include lg {
-    padding-inline: 64px;
+    padding-inline: 24px;
   }
 
   @include xl {
-    padding-inline: $frame-gutter;
+    padding-inline: 40px;
   }
 }
