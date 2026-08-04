@@ -50,7 +50,7 @@ jobs:
       - name: Update manifest repo with new image tag
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          git clone https://x-access-token:${{ secrets.MANIFEST_REPO_PAT }}@github.com/profsam97/qoves-k8s-manifest.git manifest-repo
+          git clone https://x-access-token:${{ secrets.MANIFEST_REPO_PAT }}@github.com/profsam97/qoves-k8-manifest.git manifest-repo
           cd manifest-repo
           
           NEW_TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -oP "(?<=qoves:)[a-f0-9]{7,40}" | head -n1)
