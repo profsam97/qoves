@@ -46,4 +46,21 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          
+      - name: Update manifest repo with new image tag
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git clone https://x-access-token:${{ secrets.MANIFEST_REPO_PAT }}@github.com/profsam97/qoves-k8s-manifest.git manifest-repo
+          cd manifest-repo
+          
+          NEW_TAG=$(echo "${{ steps.meta.outputs.tags }}" | grep -oP "(?<=qoves:)[a-f0-9]{7,40}" | head -n1)
+          
+          sed -i "s|image: .*qoves:.*|image: ${{ env.DOCKER_IMAGE }}:${NEW_TAG}|" qoves.yml 
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add qoves.yml
+          git commit -m "chore: update qoves app image to ${NEW_TAG}" || echo "No changes to commit"
+          git push
+
 
