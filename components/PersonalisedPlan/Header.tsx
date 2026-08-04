@@ -48,7 +48,7 @@ export function Header() {
         <span className={styles.word}>your </span>
         <span className={styles.word}>personalised </span>
         <span className={`${styles.word} ${styles.wordAccent}`}>Qoves </span>
-        <span className={`${styles.word} ${styles.wordAccent}`}>plan</span>
+        <span className={`${styles.word} ${styles.wordAccent}`}>Skincare routine</span>
       </h1>
       <p className={styles.subtitle}>
         Understand your facial features and start your glow-up today
